@@ -37,8 +37,10 @@ static CGFUserTiming *_sharedInstance;
     self = [super init];
     if (self)
     {
-        _sharedInstance.timings = [NSMutableDictionary new];
-        _sharedInstance.dispatchPeriod = 60.0f;
+        _timings = [NSMutableDictionary new];
+        
+        // Automatically dispatch timings every 15 seconds
+        [NSTimer scheduledTimerWithTimeInterval:15 target:self selector:@selector(dispatchTimings) userInfo:nil repeats:YES];
     }
     
     return self;
@@ -59,15 +61,17 @@ static CGFUserTiming *_sharedInstance;
 - (void) stopTimingForAction:(NSString*)action
 {
     NSMutableDictionary *dict = [self.timings objectForKey:action];
+    
     [dict setObject:[NSDate date] forKey:@"end"];
     [self.timings setObject:dict forKey:action];
+    
     dict = nil;
-    [self performSelectorInBackground:@selector(dispatchTimings) withObject:nil];
 }
 
 - (void) dispatchTimings
 {
-    NSLog(@"Overwrite me in your subclass to implement custom dispatching");
+#warning Create a subclass of CGFUserTiming and overwrite this method to implement your custom dispatch code
+    NSLog(@"Dispatching timings\n%@", self.timings);
 }
 
 @end

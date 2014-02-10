@@ -14,7 +14,6 @@
 }
 
 @property (strong, nonatomic, readonly) NSMutableDictionary *timings;
-@property NSTimeInterval dispatchPeriod;
 
 + (instancetype) sharedInstance;
 - (void) startTimingForAction:(NSString*)action userInfo:(NSDictionary*)userInfo;
